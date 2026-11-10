@@ -1,0 +1,159 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "9d5b6bc633c3ddd13723",
+  "position": {
+    "x": 960,
+    "y": 183.70370370370372,
+    "z": 5001,
+    "height": 481.97530864197535,
+    "width": 960,
+    "tabOrder": 5001
+  },
+  "visual": {
+    "visualType": "donutChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "geographies"
+                        }
+                      },
+                      "Hierarchy": "geography_country Hierarchy"
+                    }
+                  },
+                  "Level": "geography_country"
+                }
+              },
+              "queryRef": "geographies.geography_country Hierarchy.geography_country",
+              "nativeQueryRef": "geography_country Hierarchy geography_country",
+              "active": true
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "geographies"
+                        }
+                      },
+                      "Hierarchy": "geography_country Hierarchy"
+                    }
+                  },
+                  "Level": "geography_state"
+                }
+              },
+              "queryRef": "geographies.geography_country Hierarchy.geography_state",
+              "nativeQueryRef": "geography_country Hierarchy geography_state",
+              "active": false
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "geographies"
+                        }
+                      },
+                      "Hierarchy": "geography_country Hierarchy"
+                    }
+                  },
+                  "Level": "geography_city"
+                }
+              },
+              "queryRef": "geographies.geography_country Hierarchy.geography_city",
+              "nativeQueryRef": "geography_country Hierarchy geography_city",
+              "active": false
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "geographies"
+                        }
+                      },
+                      "Property": "geography_population"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(geographies.geography_population)",
+              "nativeQueryRef": "Sum of geography_population"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "geographies"
+                      }
+                    },
+                    "Property": "geography_population"
+                  }
+                },
+                "Function": 0
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Population Drilldown'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

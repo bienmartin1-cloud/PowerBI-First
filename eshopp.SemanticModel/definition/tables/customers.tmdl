@@ -1,0 +1,78 @@
+table customers
+	lineageTag: eac7049d-2429-45a9-85e3-e00d3b134023
+
+	measure customer_avg_age = AVERAGE(customers[customer_age])
+		lineageTag: 04b1dd20-1c61-454d-8400-05bca6b825e5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 96c02733-ca76-4f2b-9286-7af80a987449
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_name
+		dataType: string
+		lineageTag: a40444d3-65bc-4a4e-a6b0-d9a9b3b0433a
+		summarizeBy: none
+		sourceColumn: customer_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_payment_type
+		dataType: string
+		lineageTag: a3448f27-aedc-41e2-be86-539355883283
+		summarizeBy: none
+		sourceColumn: customer_payment_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_age
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ff169d0-82bc-4586-b15e-fdc3a0b6483c
+		summarizeBy: sum
+		sourceColumn: customer_age
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_region
+		dataType: string
+		lineageTag: e54f8bdc-f7f1-4373-8ff0-6369f155f4e2
+		summarizeBy: none
+		sourceColumn: customer_region
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_signup_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cc9942ae-2e2c-44f4-8b25-bd66c0fcfc44
+		summarizeBy: none
+		sourceColumn: customer_signup_date
+
+		variation Variation
+			isDefault
+			relationship: ca0b6392-c922-40f3-8c7b-f135a01ba016
+			defaultHierarchy: LocalDateTable_a80ac9fc-b10c-4cdc-ae3d-32cce7c6db22.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition customers = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\bienm\Documents\Projects\PowerBI\customers.csv"), [Delimiter = ",", Columns = 6, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"customer_id", Int64.Type}, {"customer_name", type text}, {"customer_payment_type", type text}, {"customer_age", Int64.Type}, {"customer_region", type text}, {"customer_signup_date", type date}})
+				in
+				  #"Changed column type"
+
+	annotation PBI_ResultType = Table
+

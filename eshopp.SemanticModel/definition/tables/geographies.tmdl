@@ -1,0 +1,61 @@
+table geographies
+	lineageTag: 160402d2-d352-47e7-ab6e-20c282f4083a
+
+	column geography_country
+		dataType: string
+		lineageTag: 23ac448d-a846-41e0-b032-79a53f0ae857
+		summarizeBy: none
+		sourceColumn: geography_country
+
+		annotation SummarizationSetBy = Automatic
+
+	column geography_state
+		dataType: string
+		lineageTag: db0e50e1-f477-4f1f-b109-c9766d552af7
+		summarizeBy: none
+		sourceColumn: geography_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column geography_city
+		dataType: string
+		lineageTag: 07a1c069-d6ab-49cc-bedb-cecfa9b07430
+		summarizeBy: none
+		sourceColumn: geography_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column geography_population
+		dataType: int64
+		formatString: 0
+		lineageTag: 552818e9-f0a3-4033-ac06-a5cd3925a1c0
+		summarizeBy: sum
+		sourceColumn: geography_population
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'geography_country Hierarchy'
+		lineageTag: d09be9bc-7718-4266-ad4f-9ddb19fa92dc
+
+		level geography_country
+			lineageTag: a1035591-90be-45d9-ab1a-46076fe5b381
+			column: geography_country
+
+		level geography_state
+			lineageTag: 6587d65b-08d6-4ed0-8364-16aef105af54
+			column: geography_state
+
+		level geography_city
+			lineageTag: d9c4ec80-fe16-4bce-b456-8933c6b725af
+			column: geography_city
+
+	partition geographies = m
+		mode: import
+		source =
+				let
+				  Source = Csv.Document(File.Contents("C:\Users\bienm\Documents\Projects\PowerBI\geographies.csv"), [Delimiter = ",", Columns = 4, Encoding = 65001, QuoteStyle = QuoteStyle.None]),
+				  #"Promoted headers" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"geography_country", type text}, {"geography_state", type text}, {"geography_city", type text}, {"geography_population", Int64.Type}})
+				in
+				  #"Changed column type"
+
